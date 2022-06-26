@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'ruby_app'
+
+def request_argument
+  warn "Please provide a file path, ex. #{File.basename($0)} /file_name.log"
+
+  exit 1
+end
+
+file_path = ARGV[0] or request_argument
+
+begin
+  parser = RubyApp::Parser.new(file_path)
+  puts parser.format
+rescue RubyApp::Error => e
+  warn "Couldn't parse log: #{e.message}"
+
+  exit 2
+end
